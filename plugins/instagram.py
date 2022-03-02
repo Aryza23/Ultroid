@@ -133,7 +133,7 @@ async def soon_(e):
         data = cl.account_info()
         data = cl.user_info(data.pk)
     photo = data.profile_pic_url
-    unam = "https://instagram.com/" + data.username
+    unam = f"https://instagram.com/{data.username}"
     msg = f"• **Full Name** : __{data.full_name}__"
     if hasattr(data, "biography") and data.biography:
         msg += f"\n• **Bio** : `{data.biography}`"
@@ -210,7 +210,7 @@ async def insta_karbon(event):
 @in_pattern("instp-(.*)", owner=True)
 async def instapl(event):
     match = event.pattern_match.group(1).strip().split("_")
-    uri = "https://instagram.com/p/" + match[0]
+    uri = f"https://instagram.com/p/{match[0]}"
     await event.answer(
         [
             await event.builder.article(
@@ -218,7 +218,7 @@ async def instapl(event):
                 text="**Uploaded on Instagram**",
                 buttons=[
                     Button.url("•View•", uri),
-                    Button.inline("•Delete•", "instd" + match[1]),
+                    Button.inline("•Delete•", f"instd{match[1]}"),
                 ],
             )
         ]
@@ -234,7 +234,7 @@ async def dele_post(event):
     try:
         CL.media_delete(event.data_match.group(1).decode("utf-8"))
     except Exception as er:
-        return await event.edit("ERROR: " + str(er))
+        return await event.edit(f"ERROR: {str(er)}")
     await event.edit("**• Deleted!**")
 
 

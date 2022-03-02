@@ -108,10 +108,7 @@ async def hehe(args):
     xx = await args.eor(get_string("com_1"))
     user = ultroid_bot.me
     username = user.username
-    if not username:
-        username = user.first_name
-    else:
-        username = "@" + username
+    username = user.first_name if not username else f"@{username}"
     message = await args.get_reply_message()
     photo = None
     is_anim, is_vid = False, False

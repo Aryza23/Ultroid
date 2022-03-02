@@ -290,8 +290,7 @@ async def inline_alive(ult):
                     )
                 ]
             else:
-                _pic = resolve_bot_file_id(pic)
-                if _pic:
+                if _pic := resolve_bot_file_id(pic):
                     pic = _pic
                     buttons.insert(
                         0, [Button.inline(get_string("bot_2"), data="alive")]

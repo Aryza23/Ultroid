@@ -73,12 +73,13 @@ async def daudtoid(e):
     dl = r.file.name or "input.mp4"
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f"resources/downloads/{dl}",
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f"Downloading {dl}...",
     )
+
     File.append(file.name)
     await xxx.edit(get_string("spcltool_2"))
 
@@ -98,24 +99,19 @@ async def adaudroid(e):
     dl = r.file.name or "input.mp4"
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f"resources/downloads/{dl}",
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f"Downloading {dl}...",
     )
+
     await xxx.edit(get_string("spcltool_5"))
     await bash(
         f'ffmpeg -i "{file.name}" -i "{File[0]}" -shortest -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
     )
     out = "output.mp4"
-    mmmm = await uploader(
-        out,
-        out,
-        time.time(),
-        xxx,
-        "Uploading " + out + "...",
-    )
+    mmmm = await uploader(out, out, time.time(), xxx, f"Uploading {out}...")
     data = await metadata(out)
     width = data["width"]
     height = data["height"]
@@ -262,9 +258,10 @@ async def _(event):
         return await event.eor("`Give something to search`")
     uu = await event.eor(get_string("com_1"))
     z = bs(
-        await async_searcher("https://combot.org/telegram/stickers?q=" + x),
+        await async_searcher(f"https://combot.org/telegram/stickers?q={x}"),
         "html.parser",
     )
+
     packs = z.find_all("div", "sticker-pack__header")
     sticks = {
         c.a["href"]: c.find("div", {"class": "sticker-pack__title"}).text for c in packs

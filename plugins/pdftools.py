@@ -62,12 +62,9 @@ async def pdfseimg(event):
     k = time.time()
     filename = "hehe.pdf"
     result = await downloader(
-        "pdf/" + filename,
-        file,
-        xx,
-        k,
-        "Downloading " + filename + "...",
+        f"pdf/{filename}", file, xx, k, f"Downloading {filename}..."
     )
+
     await xx.delete()
     pdfp = "pdf/hehe.pdf"
     pdfp.replace(".pdf", "")
@@ -126,13 +123,7 @@ async def pdfsetxt(event):
     file = ok.media.document
     k = time.time()
     filename = ok.file.name
-    result = await downloader(
-        filename,
-        file,
-        xx,
-        k,
-        "Downloading " + filename + "...",
-    )
+    result = await downloader(filename, file, xx, k, f"Downloading {filename}...")
     await xx.delete()
     dl = result.name
     if not msg:

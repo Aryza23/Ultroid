@@ -41,9 +41,7 @@ async def auth_group(event):
         admins = False
     chat = event.chat_id
     key = udB.get_key("VC_AUTH_GROUPS") or {}
-    cha, adm = None, None
-    if key.get(chat):
-        cha, adm = key[chat], key[chat]["admins"]
+    cha, adm = (key[chat], key[chat]["admins"]) if key.get(chat) else (None, None)
     if cha and adm == admins:
         return await event.reply(get_string("vcbot_19"))
     key.update({chat: {"admins": admins}})

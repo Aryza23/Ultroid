@@ -89,12 +89,13 @@ async def trim_aud(e):
         xxx = await e.eor(get_string("audiotools_5"))
         c_time = time.time()
         file = await downloader(
-            "resources/downloads/" + name,
+            f"resources/downloads/{name}",
             vfile,
             xxx,
             c_time,
-            "Downloading " + name + "...",
+            f"Downloading {name}...",
         )
+
         o_size = os.path.getsize(file.name)
         d_time = time.time()
         diff = time_formatter((d_time - c_time) * 1000)
@@ -111,13 +112,7 @@ async def trim_aud(e):
         await bash(cmd)
         os.remove(file.name)
         f_time = time.time()
-        mmmm = await uploader(
-            out,
-            out,
-            f_time,
-            xxx,
-            "Uploading " + out + "...",
-        )
+        mmmm = await uploader(out, out, f_time, xxx, f"Uploading {out}...")
         attributes = await set_attributes(out)
 
         caption = get_string("audiotools_7").format(ss, dd)
@@ -145,13 +140,14 @@ async def ex_aud(e):
     msg = await e.eor(get_string("com_1"))
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + name,
+        f"resources/downloads/{name}",
         vfile,
         msg,
         c_time,
-        "Downloading " + name + "...",
+        f"Downloading {name}...",
     )
-    out_file = file.name + ".aac"
+
+    out_file = f'{file.name}.aac'
     cmd = f"ffmpeg -i {file.name} -vn -acodec copy {out_file}"
     o, err = await bash(cmd)
     os.remove(file.name)
@@ -160,12 +156,9 @@ async def ex_aud(e):
     f_time = time.time()
     try:
         fo = await uploader(
-            out_file,
-            out_file,
-            f_time,
-            msg,
-            "Uploading " + out_file + "...",
+            out_file, out_file, f_time, msg, f"Uploading {out_file}..."
         )
+
     except FileNotFoundError:
         return await eor(msg, get_string("audiotools_9"))
     await e.client.send_file(

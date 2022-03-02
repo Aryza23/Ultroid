@@ -92,7 +92,7 @@ async def fcall(e):
     if not cl.username:
         el = (await ultroid_bot(ExportChatInviteRequest(cl))).link
     else:
-        el = "https://t.me/" + cl.username
+        el = f"https://t.me/{cl.username}"
     res = [
         await e.builder.article(
             title="forcesub",

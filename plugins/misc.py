@@ -47,17 +47,17 @@ async def diela(e):
             month = list(calendar.month_name)[int(month)][:3]
         except (KeyError, TypeError):
             month = dt.today().strftime("%b")
-        li += "/days/" + month + "/" + date
+        li += f"/days/{month}/{date}"
         te = get_string("eod_2").format(match)
     else:
-        da = datetime.today()
+        da = datetime.now()
         month = da.strftime("%b")
-        li += "/days/" + month + "/" + da.strftime("%F").split("-")[2]
+        li += f"/days/{month}/" + da.strftime("%F").split("-")[2]
     ct = await async_searcher(li, re_content=True)
     bt = bs(ct, "html.parser", from_encoding="utf-8")
     ml = bt.find_all("a", "js-link-target", href=re.compile("daysoftheyear.com/days"))
     for eve in ml[:5]:
-        te += "• " + f'[{eve.text}]({eve["href"]})\n'
+        te += f'• [{eve.text}]({eve["href"]})\n'
     await m.edit(te, link_preview=False)
 
 
@@ -77,10 +77,7 @@ async def pinterest(e):
         _soup = bs(soup, "html.parser").find("table").tbody.find_all("tr")
     except BaseException:
         return await e.eor("`Wrong link or private pin.`", time=5)
-    if len(_soup) > 1:
-        file = _soup[1]
-    else:
-        file = _soup[0]
+    file = _soup[1] if len(_soup) > 1 else _soup[0]
     file = file.td.a["href"]
     await e.client.send_file(e.chat_id, file, caption=f"Pin:- {m}")
 

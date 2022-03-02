@@ -24,8 +24,7 @@ async def dheh(e):
 
 @asst_cmd(pattern="echo( (.*)|$)")
 async def oqha(e):
-    match = e.pattern_match.group(1).strip()
-    if match:
+    if match := e.pattern_match.group(1).strip():
         text = match
         reply_to = e
     elif e.is_reply:

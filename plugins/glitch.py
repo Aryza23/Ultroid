@@ -28,13 +28,12 @@ async def _(e):
         return await e.eor(get_string("cvt_3"))
     xx = await e.eor(get_string("glitch_1"))
     wut = mediainfo(reply.media)
-    if not wut.startswith(("pic", "sticker")):
-        if reply.document and reply.document.thumbs:
-            ok = await reply.download_media(thumb=-1)
-        else:
-            return await xx.eor(get_string("com_4"))
-    else:
+    if wut.startswith(("pic", "sticker")):
         ok = await reply.download_media()
+    elif reply.document and reply.document.thumbs:
+        ok = await reply.download_media(thumb=-1)
+    else:
+        return await xx.eor(get_string("com_4"))
     cmd = f"glitch_me gif --line_count 200 -f 10 -d 50 '{ok}' ult.gif"
     stdout, stderr = await bash(cmd)
     await e.reply(file="ult.gif", force_document=False)

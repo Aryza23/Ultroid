@@ -289,9 +289,7 @@ async def _(e):
 @ultroid_cmd(pattern="ungban( (.*)|$)", fullsudo=True)
 async def _(e):
     xx = await e.eor("`UnGbanning...`")
-    match = e.pattern_match.group(1).strip()
-    peer = None
-    if match:
+    if match := e.pattern_match.group(1).strip():
         try:
             userid = int(match)
         except ValueError:
@@ -308,6 +306,7 @@ async def _(e):
         return await xx.eor("`Reply to some msg or add their id.`", time=5)
     if not is_gbanned(userid):
         return await xx.edit("`User/Channel is not Gbanned...`")
+    peer = None
     try:
         if not peer:
             peer = await e.client.get_entity(userid)
@@ -463,10 +462,12 @@ async def gcast(event):
             chat = x.entity.id
             if (
                 not is_gblacklisted(chat)
-                and int("-100" + str(chat)) not in NOSPAM_CHAT
+                and int(f"-100{str(chat)}") not in NOSPAM_CHAT
                 and (
-                    event.text[2:7] != "admin"
-                    or (x.entity.admin_rights or x.entity.creator)
+                    (
+                        event.text[2:7] != "admin"
+                        or (x.entity.admin_rights or x.entity.creator)
+                    )
                 )
             ):
                 try:
@@ -507,7 +508,7 @@ async def gcast(event):
                         err += f"• {er}\n"
                         er += 1
                 except BaseException as h:
-                    err += "• " + str(h) + "\n"
+                    err += f"• {str(h)}" + "\n"
                     er += 1
     text += f"Done in {done} chats, error in {er} chat(s)"
     if err != "":
@@ -717,7 +718,7 @@ async def gstat_(e):
     else:
         return await xx.eor("`Reply to some msg or add their id.`", time=5)
     name = (await e.client.get_entity(userid)).first_name
-    msg = "**" + name + " is "
+    msg = f"**{name} is "
     is_banned = is_gbanned(userid)
     reason = list_gbanned().get(userid)
     if is_banned:

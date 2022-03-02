@@ -461,7 +461,7 @@ async def get_all_pinned(event):
     else:
         m = f"<b>List of pinned message(s) in {chat_name}:</b>\n\n"
 
-    if a == "":
+    if not a:
         return await eor(x, get_string("listpin_1"), time=5)
 
     await x.edit(m + a, parse_mode="html")

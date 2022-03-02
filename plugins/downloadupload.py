@@ -102,12 +102,13 @@ async def download(event):
                     filename = "video_" + dt.now().isoformat("_", "seconds") + ".mp4"
             try:
                 result = await downloader(
-                    "resources/downloads/" + filename,
+                    f"resources/downloads/{filename}",
                     file,
                     xx,
                     k,
-                    "Downloading " + filename + "...",
+                    f"Downloading {filename}...",
                 )
+
             except MessageNotModifiedError as err:
                 return await xx.edit(str(err))
             file_name = result.name
@@ -135,9 +136,8 @@ async def download(event):
     pattern="ul( (.*)|$)",
 )
 async def _(event):
-    if len(event.text) >= 8:
-        if "ultroid" in event.text[:7]:
-            return
+    if len(event.text) >= 8 and "ultroid" in event.text[:7]:
+        return
     msg = await event.eor(get_string("com_1"))
     match = event.pattern_match.group(1)
     if match:
@@ -181,8 +181,12 @@ async def _(event):
                     LOGS.exception(er)
             try:
                 file, _ = await event.client.fast_uploader(
-                    match + "/" + files, show_progress=True, event=msg, to_delete=delete
+                    f'{match}/{files}',
+                    show_progress=True,
+                    event=msg,
+                    to_delete=delete,
                 )
+
                 await event.client.send_file(
                     event.chat_id,
                     file,

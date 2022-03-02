@@ -157,7 +157,7 @@ async def _(e):
             created_chat_id = r.chats[0].id
             if username:
                 await e.client(UpdateUsernameRequest(created_chat_id, username))
-                result = "https://t.me/" + username
+                result = f"https://t.me/{username}"
             else:
                 result = (
                     await e.client(
